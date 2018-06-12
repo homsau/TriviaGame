@@ -1,1 +1,1 @@
-# TriviaGame
+# Psychic-Game
