@@ -37,21 +37,84 @@ $(document).ready(function() {
     
     var i = 0;
     var j;
-    console.log(answers[i]);
+    var k = 0;
+    var questionCount = 0;
+    var timerLength;
+    var intervalId;
+    //window.setTimeout(pause, 5000);
+    console.log(answers);
 
-    $('#questions').text(questions[i]);
-    for (j = 0; j < answers[i].length; j++) {
-        $('#answers').append("<li><input name='answerRadio' type='radio'>" + answers[i][j] + "</input></li>");
-    }
-    $("#answers").on('click','li',function (){
-        var checkAnswer = $(this).text();
-        //checkAnswer.toString();
-        console.log(checkAnswer);
-        console.log(correctAnswer[i]);
-        if (checkAnswer = correctAnswer[i]) {
-            console.log('right');
+    $(document).ready(function() {
+        $("#questions").text(questions[i]);
+        for (j = 0; j < answers[i].length; j++) {
+            $('#answers').append("<li><input name='answerRadio' type='radio'>" + answers[i][j] + "</input></li>");
         }
     });
 
+    $("#answers").on('click','li',function (){
+        var checkAnswer = $(this).text();
+        console.log(checkAnswer);
+        console.log(correctAnswer[i]);
+        if (checkAnswer === correctAnswer[i]) {
+            //run();
+            //nextQuestion();
+            correct();
+        }
+        else {
+            console.log('try again');
+            wrong();
+        }
+    });
     
+    function nextQuestion() {
+        i++;
+        k++;
+        $("#answers").html("");;
+        $("#questions").text(questions[i]);
+        if (k === questions.length) {
+            return;
+        } else {
+            for (j = 0; j < answers[i].length; j++) {
+                $('#answers').append("<li><input name='answerRadio' type='radio'>" + answers[i][j] + "</input></li>");
+            }
+        }
+    }
+    function run() {
+        intervalId = setInterval(tickTock, 1000);
+        timerLength = 30;
+    }
+    function tickTock() {
+        timerLength--;
+        $("#timer").html("<h2>" + timerLength + "</h2>");
+    }
+    function timeUp (){
+        
+    }
+    function correct () {
+        console.log("correct");
+        setTimeout(pauseTimer, 5000);
+        setTimeout(function() {
+            if (k < questions.length) {
+                nextQuestion();
+            }
+        });
+    }
+    function wrong() {
+
+    }
+    function pauseTimer() {
+        console.log(questionCount);
+        console.log(questions.length);
+        if (questionCount < questions.length) {
+        questionCount++;
+        console.log(questionCount);
+        tickTock();
+        timerLength = 30;
+        run();
+        }
+        else {
+            return;//finalScreen();
+        }
+    }
+    run();
 });
