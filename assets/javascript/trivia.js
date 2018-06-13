@@ -38,7 +38,7 @@ $(document).ready(function() {
     var i = 0;
     var j;
     var k = 0;
-    var timerLength = 30;
+    var timerLength;
     var questionCount = 0;
     var timerLength;
     var intervalId;
@@ -66,6 +66,7 @@ $(document).ready(function() {
     function nextQuestion() {
         i++;
         k++;
+        tickTock();
         $("#answers").html("");;
         $("#questions").text(questions[i]);
         if (k === questions.length) {
@@ -98,16 +99,14 @@ $(document).ready(function() {
     }
     function correct () {
         console.log("correct");
-        //setTimeout(pauseTimer, 5000);
-        $("#answers").html("<br>Correct! - Nerd (:");
         setTimeout(pauseTimer, 5000);
+        $("#answers").html("<br>Correct! - Nerd (:");
         nextQuestion();
     }
     function wrong() {
         console.log("wrong");
         console.log("the right answer was " + correctAnswer[i]);
         $("#answers").html("<br>Wrong!<br><br>The Correct Answer Was " + correctAnswer[i] + " - You Should Play More Halo");
-        
         nextQuestion();
     }
     function pauseTimer() {
@@ -119,7 +118,7 @@ $(document).ready(function() {
             tickTock();
         }
         else {
-            return;//finalScreen();
+            return;
         }
     }
 });
