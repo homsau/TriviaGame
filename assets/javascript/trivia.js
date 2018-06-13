@@ -38,30 +38,27 @@ $(document).ready(function() {
     var i = 0;
     var j;
     var k = 0;
+    var timerLength = 30;
     var questionCount = 0;
     var timerLength;
     var intervalId;
-    //window.setTimeout(pause, 5000);
+
     console.log(answers);
 
-    $(document).ready(function() {
-        $("#questions").text(questions[i]);
-        for (j = 0; j < answers[i].length; j++) {
-            $('#answers').append("<li><input name='answerRadio' type='radio'>" + answers[i][j] + "</input></li>");
-        }
-    });
-
+    $("#questions").text(questions[i]);
+    for (j = 0; j < answers[i].length; j++) {
+        $('#answers').append("<li><input name='answerRadio' type='radio'>" + answers[i][j] + "</input></li>");
+    }
     $("#answers").on('click','li',function (){
         var checkAnswer = $(this).text();
         console.log(checkAnswer);
         console.log(correctAnswer[i]);
         if (checkAnswer === correctAnswer[i]) {
-            //run();
-            //nextQuestion();
+            clearInterval(intervalId);
             correct();
         }
         else {
-            console.log('try again');
+            clearInterval(intervalId);
             wrong();
         }
     });
@@ -79,42 +76,50 @@ $(document).ready(function() {
             }
         }
     }
-    function run() {
-        intervalId = setInterval(tickTock, 1000);
-        timerLength = 30;
-    }
+    
     function tickTock() {
-        timerLength--;
-        $("#timer").html("<h2>" + timerLength + "</h2>");
+        intervalId = setInterval(timerFunction, 1000);
+        timerLength = 30;
+        function timerFunction() {
+            if (timerLength > 0) {
+                timerLength--;
+                $("#timer").html("<h2>" + timerLength + "</h2>");
+            }
+            else {
+                clearInterval(tickTock);
+            }
+            $("#timer").html(timerLength);
+        }
     }
+    tickTock();
+
     function timeUp (){
         
     }
     function correct () {
         console.log("correct");
+        //setTimeout(pauseTimer, 5000);
+        $("#answers").html("<br>Correct! - Nerd (:");
         setTimeout(pauseTimer, 5000);
-        setTimeout(function() {
-            if (k < questions.length) {
-                nextQuestion();
-            }
-        });
+        nextQuestion();
     }
     function wrong() {
-
+        console.log("wrong");
+        console.log("the right answer was " + correctAnswer[i]);
+        $("#answers").html("<br>Wrong!<br><br>The Correct Answer Was " + correctAnswer[i] + " - You Should Play More Halo");
+        
+        nextQuestion();
     }
     function pauseTimer() {
-        console.log(questionCount);
-        console.log(questions.length);
+        //console.log(questionCount);
+        //console.log(questions.length);
         if (questionCount < questions.length) {
-        questionCount++;
-        console.log(questionCount);
-        tickTock();
-        timerLength = 30;
-        run();
+            questionCount++;
+            console.log(questionCount);
+            tickTock();
         }
         else {
             return;//finalScreen();
         }
     }
-    run();
 });
