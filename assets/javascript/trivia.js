@@ -16,12 +16,12 @@ $(document).ready(function() {
         answers [0] = "The Arbiter,Pickle Juice,Jacob Keyes,Master Chief,Sgt. Major Johnson".split(",");
         answers [1] = "Pillar of Autum,Forward until Dawn,Aegis Fate".split(",");
         answers [2] = "The General,Jacob Keyes,Miranda Keyes,Avery Johnson".split(",");
-        answers [3] = "The Arbiter,Tatarus,The Prophet of truth".split(",");
+        answers [3] = "Tatarus,The Arbiter,The Prophet of truth".split(",");
         answers [4] = "The Prophets,The Hunters,The Brutes,The Jackals,The Elites".split(",");
-        answers [5] = "7,9,5,1,13".split(",");
+        answers [5] = "5,1,7,9,13".split(",");
         answers [6] = "His daughter,Sgt. Johnson,Master Chief".split(",");
-        answers [7] = "The Arbiter,Master Chief,Sgt. Johnson".split(",");
-        answers [8] = "Master Chief,The Flood,The Arbiter,Sgt. Johnson".split(",");
+        answers [7] = "TMaster Chief,he Arbiter,Sgt. Johnson".split(",");
+        answers [8] = "The Flood,The Arbiter,Master Chief,Sgt. Johnson".split(",");
         answers [9] = "Master Chief,Sgt. Johnson,The Arbiter,A flood spore".split(",");
     var correctAnswer = new Array();
         correctAnswer [0] = "Master Chief";
@@ -42,6 +42,9 @@ $(document).ready(function() {
     var questionCount = 0;
     var timerLength;
     var intervalId;
+    var qRight = 0;
+    var qWrong = 0;
+    var qTime = 0;
 
     console.log(answers);
 
@@ -51,14 +54,9 @@ $(document).ready(function() {
     }
     $("#answers").on('click','li',function (){
         var checkAnswer = $(this).text();
-        console.log(checkAnswer);
-        console.log(correctAnswer[i]);
         if (checkAnswer === correctAnswer[i]) {
-            clearInterval(intervalId);
             correct();
-        }
-        else {
-            clearInterval(intervalId);
+        } else {
             wrong();
         }
     });
@@ -80,45 +78,38 @@ $(document).ready(function() {
     
     function tickTock() {
         intervalId = setInterval(timerFunction, 1000);
-        timerLength = 30;
+        timerLength = 5;
         function timerFunction() {
             if (timerLength > 0) {
                 timerLength--;
-                $("#timer").html("<h2>" + timerLength + "</h2>");
+                $("#timer").text("<h2>" + timerLength + "</h2>");
             }
-            else {
-                clearInterval(tickTock);
+            else if (timerLength === 0) {
+                //clearInterval(intervalId);
+                timeUp();
             }
             $("#timer").html(timerLength);
         }
     }
     tickTock();
 
-    function timeUp (){
-        
+    function timeUp() {
+        qTime++;
+        clearInterval(intervalId);
+        setTimeout(nextQuestion, 5000);
+        $("#answers").html("<br>Time Up!<br><br>The Correct Answer Was " + correctAnswer[i]);
+        console.log("qTime " + qTime);
     }
     function correct () {
-        console.log("correct");
-        setTimeout(pauseTimer, 5000);
+        qRight++;
+        setTimeout(nextQuestion, 5000);
         $("#answers").html("<br>Correct! - Nerd (:");
-        nextQuestion();
+        console.log("qRight " + qRight);
     }
     function wrong() {
-        console.log("wrong");
-        console.log("the right answer was " + correctAnswer[i]);
+        qWrong++;
+        setTimeout(nextQuestion, 5000);
         $("#answers").html("<br>Wrong!<br><br>The Correct Answer Was " + correctAnswer[i] + " - You Should Play More Halo");
-        nextQuestion();
-    }
-    function pauseTimer() {
-        //console.log(questionCount);
-        //console.log(questions.length);
-        if (questionCount < questions.length) {
-            questionCount++;
-            console.log(questionCount);
-            tickTock();
-        }
-        else {
-            return;
-        }
+        console.log("qWrong " + qWrong);
     }
 });
