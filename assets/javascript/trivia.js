@@ -13,28 +13,29 @@ $(document).ready(function() {
         questions[8] = "Who killed the Prophet of Truth?";
         questions[9] = "Who killed the Prophet of Mercy?";
     var answers = new Array();
-        answers [0] = "The Arbiter,Tartarus,Jacob Keyes,Master Chief,Sgt. Major Johnson".split(",");
-        answers [1] = "Pillar of Autum,Forward until Dawn,Aegis Fate".split(",");
-        answers [2] = "The General,Jacob Keyes,Miranda Keyes,Avery Johnson".split(",");
-        answers [3] = "Tatarus,The Arbiter,The Prophet of truth".split(",");
-        answers [4] = "The Prophets,The Hunters,The Brutes,The Jackals,The Elites".split(",");
-        answers [5] = "5,1,7,9,13".split(",");
-        answers [6] = "His daughter,Sgt. Johnson,Master Chief".split(",");
-        answers [7] = "Master Chief,The Arbiter,Sgt. Johnson".split(",");
-        answers [8] = "The Flood,The Arbiter,Master Chief,Sgt. Johnson".split(",");
-        answers [9] = "Master Chief,Sgt. Johnson,The Arbiter,A flood spore".split(",");
+        answers[0] = "The Arbiter,Tartarus,Jacob Keyes,Master Chief,Sgt. Major Johnson".split(",");
+        answers[1] = "Pillar of Autum,Forward until Dawn,Aegis Fate".split(",");
+        answers[2] = "The General,Jacob Keyes,Miranda Keyes,Avery Johnson".split(",");
+        answers[3] = "Tatarus,The Arbiter,The Prophet of truth".split(",");
+        answers[4] = "The Prophets,The Hunters,The Brutes,The Jackals,The Elites".split(",");
+        answers[5] = "5,1,7,9,13".split(",");
+        answers[6] = "His daughter,Sgt. Johnson,Master Chief".split(",");
+        answers[7] = "Master Chief,The Arbiter,Sgt. Johnson".split(",");
+        answers[8] = "The Flood,The Arbiter,Master Chief,Sgt. Johnson".split(",");
+        answers[9] = "Master Chief,Sgt. Johnson,The Arbiter,A flood spore".split(",");
     var correctAnswer = new Array();
-        correctAnswer [0] = "Master Chief";
-        correctAnswer [1] = "Pillar of Autum";
-        correctAnswer [2] = "Jacob Keyes";
-        correctAnswer [3] = "The Arbiter";
-        correctAnswer [4] = "The Prophets";
-        correctAnswer [5] = "7";
-        correctAnswer [6] = "His daughter";
-        correctAnswer [7] = "Master Chief";
-        correctAnswer [8] = "The Arbiter";
-        correctAnswer [9] = "A flood spore";
-    
+        correctAnswer[0] = "Master Chief";
+        correctAnswer[1] = "Pillar of Autum";
+        correctAnswer[2] = "Jacob Keyes";
+        correctAnswer[3] = "The Arbiter";
+        correctAnswer[4] = "The Prophets";
+        correctAnswer[5] = "7";
+        correctAnswer[6] = "His daughter";
+        correctAnswer[7] = "Master Chief";
+        correctAnswer[8] = "The Arbiter";
+        correctAnswer[9] = "A flood spore";
+    var imageAnswer = ["assets/images/master-chief.jpg","assets/images/pillar-of-autumn.jpg","assets/images/jacob-keyes.jpg","assets/images/the-arbiter.jpg","assets/images/the-prophets.jpg","assets/images/7-rings.jpg","assets/images/miranda-keys.jpg","assets/images/master-chief.jpg","assets/images/the-arbiter.jpg","assets/images/flood-spore.jpg",];
+    console.log(imageAnswer);
     var i = 0;
     var j;
     var k = 0;
@@ -47,9 +48,11 @@ $(document).ready(function() {
     var qTime = 0;
 
     $("#startGame").click(function() {
+        
         $(this).attr("style", "display: none;");  
         tickTock();
-        $("#questions").text(questions[i]);
+        var q = i+1;
+        $("#questions").text(q + ": " + questions[i]);
         for (j = 0; j < answers[i].length; j++) {
             $('#answers').append("<li><input name='answerRadio' type='radio'>" + answers[i][j] + "</input></li>").attr("style", "text-align: left;");
         }
@@ -62,15 +65,15 @@ $(document).ready(function() {
             }
         });
     });
-
-    /**/
     
     function question() {
         i++;
         questionCount++;
         tickTock();
         $("#answers").html("");;
-        $("#questions").text(questions[i]);
+        var q = i+1;
+        $("#questions").text(q + ": " + questions[i]);
+        $("#picture").html("");
         if (questionCount === questions.length) {
             gameEnd();
         } else {
@@ -97,24 +100,23 @@ $(document).ready(function() {
 
     function timeUp() {
         qTime++;
-        //clearInterval(intervalId);
         setTimeout(question, 5000);
         $("#answers").html("Time Up!<br><br>The Correct Answer Was " + correctAnswer[i]).attr("style", "text-align: center;");
-        console.log("qTime " + qTime);
+        $("#picture").html("<br><img src='" + imageAnswer[i] + "' width='400px'>");
     }
     function correct () {
         qRight++;
         clearInterval(intervalId);
         setTimeout(question, 5000);
         $("#answers").html("Correct! - Nerd (:").attr("style", "text-align: center;");
-        console.log("qRight " + qRight);
+        $("#picture").html("<br><img src='" + imageAnswer[i] + "' width='400px'>");
     }
     function wrong() {
         qWrong++;
         clearInterval(intervalId);
         setTimeout(question, 5000);
         $("#answers").html("Wrong!<br><br>The Correct Answer Was " + correctAnswer[i] + " - You Should Play More Halo").attr("style", "text-align: center;");
-        console.log("qWrong " + qWrong);
+        $("#picture").html("<br><img src='" + imageAnswer[i] + "' width='400px'>");
     }
     function gameEnd() {
         clearInterval(intervalId);
