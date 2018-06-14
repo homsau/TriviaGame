@@ -1,9 +1,53 @@
+html {
+    background-image: url('../images/halo-bg.jpg');
+    background-color: #000;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-shadow: 0.25px 0.25px #fff;
+}
+body {
+    width: 600px;
+    max-width: 100%;
+    background-color: rgba(255,255,255,0.75) !important;
+    padding: 20px;
+    margin: 50px auto !important;
+    border-radius: 5px;
+}
+body > h1 {
+    margin: 0 0 20px;
+}
+#startGame {
+    padding: 0;
+    margin: 0 0 20px;
+    text-align: center;
+}
+#startGame button {
+    background-color: #597859;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+}
+#startGame button:hover {
+    background-color: rgba(89,120,89,0.75);
+}
+.jumbotron {
+    background: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 0px !important;
+}
 li {
     list-style-type: none;
 }
 #answers li input {
-    margin-right: 1em;
+    margin-right: 20px;
 }
 h2 {
+    text-align: center !important;
+}
+div#questions {
     text-align: center;
+}
+div#answers {
+    /*width: 500px;*/
+    margin: auto;
 }
