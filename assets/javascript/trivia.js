@@ -85,7 +85,7 @@ $(document).ready(function() {
     
     function tickTock() {
         intervalId = setInterval(timerFunction, 1000);
-        timerLength = 5;
+        timerLength = 30;
         function timerFunction() {
             if (timerLength === 0) {
                 clearInterval(intervalId);
